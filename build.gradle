@@ -171,34 +171,34 @@ def publishDiscord() {
     }
 }
 
-//tasks.getByPath(':quilt:publishCurseForge').configure {
-//    mustRunAfter(':quilt:assemble')
-//}
-//tasks.getByPath(':fabric:publishCurseForge').configure {
-//    mustRunAfter(':fabric:assemble')
-//    mustRunAfter(':quilt:publishCurseForge')
-//}
-//tasks.getByPath(':forge:publishCurseForge').configure {
-//    mustRunAfter(':forge:assemble')
-//    mustRunAfter(':fabric:publishCurseForge')
-//}
-//tasks.getByPath(':fabric:modrinth').mustRunAfter(':quilt:modrinth')
-//tasks.getByPath(':forge:modrinth').mustRunAfter(':fabric:modrinth')
-//
-//tasks.register('publishQuilt') {
-//    dependsOn ':quilt:modrinth'
-//    dependsOn ':quilt:publishCurseForge'
-//
-//    doLast {
-//        publishDiscord()
-//    }
-//}
-//
-//tasks.register('publishFabricForgeQuilt') {
-//    dependsOn ':fabric:modrinth', ':forge:modrinth', ':quilt:modrinth'
-//    dependsOn ':fabric:publishCurseForge', ':forge:publishCurseForge', ':quilt:publishCurseForge'
-//
-//    doLast {
-//        publishDiscord()
-//    }
-//}
+tasks.getByPath(':quilt:publishCurseForge').configure {
+    mustRunAfter(':quilt:assemble')
+}
+tasks.getByPath(':fabric:publishCurseForge').configure {
+    mustRunAfter(':fabric:assemble')
+    mustRunAfter(':quilt:publishCurseForge')
+}
+tasks.getByPath(':forge:publishCurseForge').configure {
+    mustRunAfter(':forge:assemble')
+    mustRunAfter(':fabric:publishCurseForge')
+}
+tasks.getByPath(':fabric:modrinth').mustRunAfter(':quilt:modrinth')
+tasks.getByPath(':forge:modrinth').mustRunAfter(':fabric:modrinth')
+
+tasks.register('publishQuilt') {
+    dependsOn ':quilt:modrinth'
+    dependsOn ':quilt:publishCurseForge'
+
+    doLast {
+        publishDiscord()
+    }
+}
+
+tasks.register('publishFabricForgeQuilt') {
+    dependsOn ':fabric:modrinth', ':forge:modrinth', ':quilt:modrinth'
+    dependsOn ':fabric:publishCurseForge', ':forge:publishCurseForge', ':quilt:publishCurseForge'
+
+    doLast {
+        publishDiscord()
+    }
+}
