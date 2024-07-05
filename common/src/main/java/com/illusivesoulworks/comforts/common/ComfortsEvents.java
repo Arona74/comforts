@@ -26,14 +26,19 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.SleepStatus;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -235,6 +240,49 @@ public class ComfortsEvents {
       }).orElse(null);
     }
     return null;
+  }
+
+  public static int sleepersNeeded(int activePlayers) {
+    int percentage = ComfortsConfig.SERVER.daytimeSleepingPercentage.get();
+
+    if (percentage < 0) {
+      return 0;
+    }
+    return Math.max(1, Mth.ceil((float) (activePlayers * percentage) / 100.0F));
+  }
+
+  public static boolean announceSleepStatus(SleepStatus sleepStatus, ServerLevel serverLevel) {
+    MinecraftServer server = serverLevel.getServer();
+
+    if (!serverLevel.isDay()) {
+      return false;
+    }
+
+    if (!server.isSingleplayer() || server.isPublished()) {
+      int percentage = ComfortsConfig.SERVER.daytimeSleepingPercentage.get();
+
+      if (percentage < 0) {
+        percentage = serverLevel.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
+      }
+
+      if (percentage > 100) {
+        return false;
+      }
+      Component component;
+
+      if (sleepStatus.areEnoughSleeping(percentage)) {
+        component = Component.translatable("comforts.skipping_day");
+      } else {
+        component = Component.translatable("sleep.players_sleeping", sleepStatus.amountSleeping(),
+            sleepStatus.sleepersNeeded(percentage));
+      }
+
+      for (ServerPlayer player : serverLevel.players()) {
+        player.displayClientMessage(component, true);
+      }
+      return true;
+    }
+    return false;
   }
 
   public enum Result {

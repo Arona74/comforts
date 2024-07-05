@@ -1,6 +1,7 @@
 {
   "itemGroup.comforts": "Comforts",
   "itemGroup.comforts.general": "Comforts",
+  "comforts.skipping_day": "Sleeping through this day",
   "block.comforts.hammock_black": "Black Hammock Cloth",
   "block.comforts.hammock_blue": "Blue Hammock Cloth",
   "block.comforts.hammock_brown": "Brown Hammock Cloth",
@@ -68,5 +69,7 @@
   "gui.comforts.config.hammocksStopPhantoms.name": "Hammocks stop phantoms",
   "gui.comforts.config.hammocksStopPhantoms.description": "If enabled, attempting to sleep in hammocks stops phantoms from spawning.",
   "gui.comforts.config.sleepingBagsStopPhantoms.name": "Sleeping bags stop phantoms",
-  "gui.comforts.config.sleepingBagsStopPhantoms.description": "If enabled, attempting to sleep in sleeping bags stops phantoms from spawning."
+  "gui.comforts.config.sleepingBagsStopPhantoms.description": "If enabled, attempting to sleep in sleeping bags stops phantoms from spawning.",
+  "gui.comforts.config.daytimeSleepingPercentage.name": "Daytime sleep percentage",
+  "gui.comforts.config.daytimeSleepingPercentage.description": "What percentage of players must sleep to skip the day.\nA percentage value of 0 will allow the day to be skipped by just 1 player, and a percentage value of 100 will require all players to sleep before skipping the day.\nA value of less than 0 will default to the playerSleepingPercentage game rule."
 }

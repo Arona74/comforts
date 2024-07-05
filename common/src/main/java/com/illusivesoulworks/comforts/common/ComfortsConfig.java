@@ -45,6 +45,7 @@ public class ComfortsConfig {
     public final SpectreConfigSpec.DoubleValue restMultiplier;
     public final SpectreConfigSpec.EnumValue<ComfortsTimeUse> hammockUse;
     public final SpectreConfigSpec.EnumValue<ComfortsTimeUse> sleepingBagUse;
+    public final SpectreConfigSpec.IntValue daytimeSleepingPercentage;
     public final SpectreConfigSpec.BooleanValue sleepingBagsStopPhantoms;
     public final SpectreConfigSpec.BooleanValue hammocksStopPhantoms;
     public final SpectreConfigSpec.IntValue sleepingBagBreakChance;
@@ -72,6 +73,13 @@ public class ComfortsConfig {
       sleepingBagUse = builder.comment("The time of day that sleeping bags can be used.")
           .translation(CONFIG_PREFIX + "sleepingBagUse")
           .defineEnum("sleepingBagUse", ComfortsTimeUse.NIGHT);
+
+      daytimeSleepingPercentage = builder.comment("""
+              What percentage of players must sleep to skip the day.
+              A percentage value of 0 will allow the day to be skipped by just 1 player, and a percentage value of 100 will require all players to sleep before skipping the day.
+              A value of less than 0 will default to the playerSleepingPercentage game rule.
+              """).translation(CONFIG_PREFIX + "daytimeSleepingPercentage")
+          .defineInRange("daytimeSleepingPercentage", -1, -1, 100);
 
       hammocksStopPhantoms = builder.comment(
               "If enabled, attempting to sleep in hammocks stops phantoms from spawning.")
